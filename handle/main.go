@@ -1,6 +1,7 @@
 package handle
 
 import (
+	p "Echo-go/payload"
 	"io"
 	"net/http"
 	"os"
@@ -55,4 +56,14 @@ func SaveData(c echo.Context) error {
 
 	return c.HTML(http.StatusOK, "<b>Thank you! "+name+"</b>")
 
+}
+
+func Payload(c echo.Context) error {
+	u := new(p.User)
+	if err := c.Bind(u); err != nil {
+		return err
+	}
+	// return c.JSON(http.StatusCreated, u)
+	// OR
+	return c.XML(http.StatusCreated, u)
 }

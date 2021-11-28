@@ -24,6 +24,9 @@ func main() {
 	// curl(.exe) -F "name=Mohed Rah" -F "avatar=@avatar\favicon.ico" http://localhost:1323/savedata
 	e.POST("/savedata", h.SaveData)
 
+	// curl(.exe) -v -F "name=Mohed Rah" -F "email=mccdama@gmail.com" http://localhost:1323/users
+	e.POST("/users", h.Payload)
+
 	// go run main/server.go --> Listening on http://localhost:1323
 	e.Logger.Fatal(e.Start(":1323"))
 }

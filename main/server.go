@@ -15,6 +15,9 @@ func main() {
 	// http://localhost:1323/users/Mohed
 	e.GET("/users/:id", h.GetUser)
 
+	// http://localhost:1323/show?team=Peaky_Blinders&leader=Tommy_Shelby
+	e.GET("/show", h.Show)
+
 	// go run main/server.go --> Listening on http://localhost:1323
 	e.Logger.Fatal(e.Start(":1323"))
 }

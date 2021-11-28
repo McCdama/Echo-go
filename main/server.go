@@ -18,6 +18,9 @@ func main() {
 	// http://localhost:1323/show?team=Peaky_Blinders&leader=Tommy_Shelby
 	e.GET("/show", h.Show)
 
+	// curl(.exe) -F "name=Mohed Rah" -F "email=mccdama@gmail.com" http://localhost:1323/save
+	e.POST("/save", h.Save)
+
 	// go run main/server.go --> Listening on http://localhost:1323
 	e.Logger.Fatal(e.Start(":1323"))
 }

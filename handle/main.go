@@ -16,3 +16,9 @@ func Show(c echo.Context) error {
 	leader := c.QueryParam("leader")
 	return c.String(http.StatusOK, "Team: "+team+", Leader: "+leader)
 }
+
+func Save(c echo.Context) error {
+	name := c.FormValue("name")
+	email := c.FormValue("email")
+	return c.String(http.StatusOK, "Name: "+name+", Email: "+email)
+}

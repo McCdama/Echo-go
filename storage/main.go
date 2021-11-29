@@ -16,6 +16,10 @@ func init() {
 		log.Fatal(err)
 	}
 
+	if db == nil {
+		panic("db nil")
+	}
+
 	// test
 	var version string
 	err2 := db.QueryRow("SELECT VERSION()").Scan(&version)
@@ -25,4 +29,27 @@ func init() {
 	fmt.Println(version)
 
 	defer db.Close()
+	migrate(db)
+}
+
+func migrate(db *sql.DB) {
+	sql :=
+		`
+		CREATE TABLE IF NOT EXISTS tasks (
+			id INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+			firstname VARCHAR(30) NOT NULL COLLATE utf8mb4_general_ci,
+			lastname VARCHAR(30) NOT NULL COLLATE utf8mb4_general_ci,
+			email VARCHAR(50) NULL DEFAULT NULL COLLATE utf8mb4_general_ci,
+			reg_date TIMESTAMP NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+			PRIMARY KEY (id) USING BTREE
+		)
+		COLLATE='utf8mb4_general_ci'
+		ENGINE=InnoDB
+		;
+	`
+
+	_, err := db.Exec(sql)
+	if err != nil {
+		panic(err)
+	}
 }

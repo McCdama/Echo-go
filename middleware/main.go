@@ -7,13 +7,6 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-// Root level middleware
-func UseLogRec(e *echo.Echo) echo.Echo {
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-	return *e
-}
-
 // Group level middleware
 func BasicAuth(g *echo.Group, e *echo.Echo) {
 	g.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {

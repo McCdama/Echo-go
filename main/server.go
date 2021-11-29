@@ -20,6 +20,8 @@ func main() {
 	// http://localhost:8008/tasks
 	e.GET("/tasks", h.GetTasks(db))
 
+	// http://localhost:8008/tasks
+	// Postman, “PUT” -> click “Body” tab -> Check “raw” -> select JSON (application/json) as type
 	e.PUT("/tasks", h.PutTask(db))
 
 	e.DELETE("/tasks/:id", h.DeleteTask(db))

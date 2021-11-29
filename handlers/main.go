@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"Echo-go/models"
 	m "Echo-go/models"
 	"database/sql"
 	"net/http"
@@ -19,9 +20,21 @@ func GetTasks(db *sql.DB) echo.HandlerFunc {
 
 func PutTask(db *sql.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		return c.JSON(http.StatusCreated, H{
-			"created": 123,
-		})
+		// Instantiate a new task
+		var task models.Task
+		// Map incoming JSON body to the new task
+		c.Bind(&task)
+		// Add task
+		id, err := m.PutTask(db, task.Email)
+		// Return JSON
+		if err == nil {
+			return c.JSON(http.StatusCreated, H{
+				"created": id,
+			})
+		} else {
+			return err
+		}
+
 	}
 }
 

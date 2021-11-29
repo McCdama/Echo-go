@@ -1,6 +1,8 @@
 package models
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 type Task struct {
 	ID        int    `json:"id"`
@@ -32,4 +34,20 @@ func GetTasks(db *sql.DB) TaskCollection {
 		result.Task = append(result.Task, task)
 	}
 	return result
+}
+
+func PutTask(db *sql.DB, email string) (int64, error) {
+	sql := "INSERT INTO tasks(email) VALUES(?)"
+
+	stmt, err := db.Prepare(sql)
+	if err != nil {
+		panic(err)
+	}
+	defer stmt.Close()
+	// Replace the '?' in our prepared statement with 'firstname'
+	result, err2 := stmt.Exec(email)
+	if err2 != nil {
+		panic(err)
+	}
+	return result.LastInsertId()
 }

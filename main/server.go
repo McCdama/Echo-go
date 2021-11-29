@@ -1,9 +1,7 @@
 package main
 
 import (
-	h "Echo-go/handle"
-	l "Echo-go/logger"
-	"net/http"
+	_ "Echo-go/storage"
 
 	"github.com/labstack/echo/v4"
 )
@@ -11,31 +9,14 @@ import (
 func main() {
 	e := echo.New()
 
-	l.UseLogRec(e)
+	// http://localhost:8008/tasks
+	e.GET("/tasks", func(c echo.Context) error { return c.JSON(200, "GET Tasks") })
 
-	// http://localhost:1323/
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Salut!")
-	})
-	// http://localhost:1323/users/Mohed
-	e.GET("/users/:id", h.GetUser)
+	e.PUT("/tasks", func(c echo.Context) error { return c.JSON(200, "PUT Tasks") })
 
-	// http://localhost:1323/show?team=Peaky_Blinders&leader=Tommy_Shelby
-	e.GET("/show", h.Show)
+	e.DELETE("/tasks/:id", func(c echo.Context) error { return c.JSON(200, "DELETE Task "+c.Param("id")) })
 
-	// curl(.exe) -F "name=Mohed Rah" -F "email=mccdama@gmail.com" http://localhost:1323/save
-	e.POST("/save", h.Save)
+	// go run main/server.go --> Listening on http://localhost:8008
+	e.Logger.Fatal(e.Start(":8008"))
 
-	// curl(.exe) -F "name=Mohed Rah" -F "avatar=@avatar\favicon.ico" http://localhost:1323/savedata
-	e.POST("/savedata", h.SaveData)
-
-	// curl(.exe) -v -F "name=Mohed Rah" -F "email=mccdama@gmail.com" http://localhost:1323/users
-	e.POST("/users", h.Payload)
-
-	// // http://localhost:1323/users
-	// g := e.Group("/admin")
-	// m.BasicAuth(g, e)
-
-	// go run main/server.go --> Listening on http://localhost:1323
-	e.Logger.Fatal(e.Start(":1323"))
 }

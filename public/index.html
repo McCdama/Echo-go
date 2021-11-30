@@ -29,7 +29,7 @@
                     <h2>My Tasks</h2>
                     <ul class="list-group">
                         <li class="list-group-item" v-for="task in tasks">
-                            {{ task.name }}
+                            {{ task.email }}
                             <span class="pull-right">
                                 <button class="btn btn-xs btn-danger" v-on:click="deleteTask($index)">
                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
@@ -42,7 +42,7 @@
                             class="form-control"
                             placeholder="New Task"
                             v-on:keyup.enter="createTask"
-                            v-model="newTask.name">
+                            v-model="newTask.email">
                         <span class="input-group-btn">
                             <button class="btn btn-primary" type="button" v-on:click="createTask">Create</button>
                         </span>
@@ -52,3 +52,50 @@
         </div>
     </body>
 </html>
+
+<script>
+    new Vue({
+        el: 'body',
+        data() {
+            return {
+                tasks: [],
+                newTask: {},
+            }
+        },
+        created() {
+            // vue ressource $http client to fetch the data from the route
+            this.$http.get("/tasks").then(function (res) {
+                this.tasks = res.data.items ? res.data.items : []
+                console.log(this.tasks)
+            })
+        },
+        methods: {
+            createTask: function() {
+                      if (!$.trim(this.newTask)) {
+                          this.newTask = {}
+                          return
+                      }
+
+       // Post the new task to the /tasks route using the $http client
+                      this.$http.put('/tasks', this.newTask).success(function(response) {
+                          console.log(this.newTask)
+                          this.newTask.id = response.created
+                          this.tasks.push(this.newTask)
+                          this.newTask = {}
+                      }).error(function(error) {
+                          console.log(error)
+                      });
+                  },
+
+                  deleteTask: function(index) {
+       // Use the $http client to delete a task by its id
+                      this.$http.delete('/tasks/' + this.tasks[index].id).success(function(response) {
+                          this.tasks.splice(index, 1)
+                          console.log("Task deleted!")
+                      }).error(function(error) {
+                          console.log(error)
+                      })
+                  }  
+        },
+    })
+</script>

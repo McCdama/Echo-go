@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"fmt"
 )
 
 type Task struct {
@@ -37,6 +38,7 @@ func GetTasks(db *sql.DB) TaskCollection {
 }
 
 func PutTask(db *sql.DB, email string) (int64, error) {
+	fmt.Println(email)
 	sql := "INSERT INTO tasks(email) VALUES(?)"
 
 	stmt, err := db.Prepare(sql)
@@ -44,7 +46,7 @@ func PutTask(db *sql.DB, email string) (int64, error) {
 		panic(err)
 	}
 	defer stmt.Close()
-	// Replace the '?' in our prepared statement with 'firstname'
+	// Replace the '?' in our prepared statement with 'email'
 	result, err2 := stmt.Exec(email)
 	if err2 != nil {
 		panic(err)

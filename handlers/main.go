@@ -30,6 +30,7 @@ func PutTask(db *sql.DB) echo.HandlerFunc {
 		if err == nil {
 			return c.JSON(http.StatusCreated, H{
 				"created": id,
+				"email":   task.Email,
 			})
 		} else {
 			return err

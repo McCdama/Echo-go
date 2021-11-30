@@ -32,6 +32,14 @@ func main() {
 	// curl(.exe) -v -F "name=Mohed Rah" -F "email=mccdama@gmail.com" http://localhost:1323/users
 	e.POST("/users", h.Payload)
 
+	// Bind JUST the Body
+	// THIS SHOULD NOT WORK
+	// curl -v -X POST http://localhost:1323/usersBody -H 'Content-Type: application/json' -F 'name=Mohed Rah' -F 'email=mccdama@gmail.com'
+
+	// --> This works
+	// curl -v -X POST http://localhost:1323/usersBody -H 'Content-Type: application/json' -d '{"date":"2021-11-30"}'
+	e.POST("/usersBody", h.CreateDiary)
+
 	// // http://localhost:1323/users
 	// g := e.Group("/admin")
 	// m.BasicAuth(g, e)

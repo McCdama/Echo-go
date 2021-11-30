@@ -2,6 +2,7 @@ package handle
 
 import (
 	p "Echo-go/payload"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -66,4 +67,12 @@ func Payload(c echo.Context) error {
 	return c.JSON(http.StatusCreated, u)
 	// OR
 	// return c.XML(http.StatusCreated, u)
+}
+
+func CreateDiary(c echo.Context) error {
+	var getData p.TestModel
+	if err := (&echo.DefaultBinder{}).BindBody(c, &getData); err != nil {
+		fmt.Print(err.Error())
+	}
+	return c.JSON(200, getData)
 }

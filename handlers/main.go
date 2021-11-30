@@ -41,8 +41,13 @@ func PutTask(db *sql.DB) echo.HandlerFunc {
 func DeleteTask(db *sql.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id, _ := strconv.Atoi(c.Param("id"))
-		return c.JSON(http.StatusOK, H{
-			"deleted": id,
-		})
+		_, err := m.DeleteTask(db, id)
+		if err == nil {
+			return c.JSON(http.StatusOK, H{
+				"deleted": id,
+			})
+		} else {
+			return err
+		}
 	}
 }

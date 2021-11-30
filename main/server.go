@@ -24,6 +24,8 @@ func main() {
 	// Postman, “PUT” -> click “Body” tab -> Check “raw” -> select JSON (application/json) as type
 	e.PUT("/tasks", h.PutTask(db))
 
+	// http://localhost:8008/tasks/:id
+	//  Replace “:id” with the id
 	e.DELETE("/tasks/:id", h.DeleteTask(db))
 
 	// go run main/server.go --> Listening on http://localhost:8008

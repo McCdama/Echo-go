@@ -8,7 +8,16 @@ import (
 
 type User struct {
 	Name  string `json:"name" xml:"name" form:"name" query:"name" param:"name"`
-	Email string `json:"email" xml:"name" form:"email" query:"email" param:"email"`
+	Email string `json:"email" xml:"email" form:"email" query:"email" param:"email"`
+}
+
+func (u User) GetDetail() string {
+	s := fmt.Sprintf("The name is %s And the Email is %s", u.Name, u.Email)
+	return s
+}
+func (u User) PanicDetail() string {
+	s := fmt.Sprintf("please provide a valid name: %s or email: %s", u.Name, u.Email)
+	return s
 }
 
 type CustomTime struct {

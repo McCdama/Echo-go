@@ -38,7 +38,10 @@ func main() {
 
 	// --> This works
 	// curl -v -X POST http://localhost:1323/usersBody -H 'Content-Type: application/json' -d '{"date":"2021-11-30"}'
-	e.POST("/usersBody", h.CreateDiary)
+	e.POST("/usersBody", h.PayloadBindBody)
+
+	// curl -v -X POST http://localhost:1323/usersPara -H 'Content-Type: application/json' -d '{"date":"2021-11-30"}'
+	e.POST("/usersPara", h.PayloadBindPara)
 
 	// // http://localhost:1323/users
 	// g := e.Group("/admin")

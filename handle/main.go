@@ -69,10 +69,25 @@ func Payload(c echo.Context) error {
 	// return c.XML(http.StatusCreated, u)
 }
 
-func CreateDiary(c echo.Context) error {
+func PayloadBindBody(c echo.Context) error {
 	var getData p.TestModel
 	if err := (&echo.DefaultBinder{}).BindBody(c, &getData); err != nil {
 		fmt.Print(err.Error())
 	}
 	return c.JSON(200, getData)
+}
+
+func PayloadBindPara(c echo.Context) error {
+	// c.QueryParams() --> MAP
+	var getData p.User
+	e := c.QueryParam("email")
+	n := c.QueryParam("name")
+	if n == "" || e == "" {
+		return c.JSON(200, getData.PanicDetail())
+	} else {
+		if err := (&echo.DefaultBinder{}).BindQueryParams(c, &getData); err != nil {
+			panic(err)
+		}
+	}
+	return c.JSON(200, getData.GetDetail())
 }

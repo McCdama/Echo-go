@@ -26,7 +26,7 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func GenerateTokenAndSetCookie(user *user.User, c echo.Context) error {
+func GenerateTokensAndSetCookies(user *user.User, c echo.Context) error {
 	accessToken, exp, err := generateAccessToken(user)
 	if err != nil {
 		return err
